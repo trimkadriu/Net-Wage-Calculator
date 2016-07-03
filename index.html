@@ -1,0 +1,81 @@
+<html>
+<head>
+	<title>Kalkulimi i Tatimit ne Page</title>
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <style type="text/css">	table{font-family:verdana,arial,sans-serif;font-size:11px;color:#333;border-width:1px;border-color:#666;border-collapse:collapse}table caption{font-family:verdana,arial,sans-serif;font-size:18px;font-weight:700;color:#333;border-width:1px;border-color:#666;border-collapse:collapse;margin-bottom:15px}table th{border-width:1px;padding:8px;border-style:solid;border-color:#666;background-color:#dedede}table td{border-width:1px;padding:8px;border-style:solid;border-color:#666;background-color:#fff}#floatingCirclesG{position:relative;width:48px;height:48px;-moz-transform:scale(0.6);-webkit-transform:scale(0.6);-ms-transform:scale(0.6);-o-transform:scale(0.6);transform:scale(0.6)}.f_circleG{position:absolute;background-color:#FFF;height:9px;width:9px;-moz-border-radius:4px;-moz-animation-name:f_fadeG;-moz-animation-duration:1.04s;-moz-animation-iteration-count:infinite;-moz-animation-direction:linear;-webkit-border-radius:4px;-webkit-animation-name:f_fadeG;-webkit-animation-duration:1.04s;-webkit-animation-iteration-count:infinite;-webkit-animation-direction:linear;-ms-border-radius:4px;-ms-animation-name:f_fadeG;-ms-animation-duration:1.04s;-ms-animation-iteration-count:infinite;-ms-animation-direction:linear;-o-border-radius:4px;-o-animation-name:f_fadeG;-o-animation-duration:1.04s;-o-animation-iteration-count:infinite;-o-animation-direction:linear;border-radius:4px;animation-name:f_fadeG;animation-duration:1.04s;animation-iteration-count:infinite;animation-direction:linear}#frotateG_01{left:0;top:20px;-moz-animation-delay:.39s;-webkit-animation-delay:.39s;-ms-animation-delay:.39s;-o-animation-delay:.39s;animation-delay:.39s}#frotateG_02{left:6px;top:6px;-moz-animation-delay:.52s;-webkit-animation-delay:.52s;-ms-animation-delay:.52s;-o-animation-delay:.52s;animation-delay:.52s}#frotateG_03{left:20px;top:0;-moz-animation-delay:.65s;-webkit-animation-delay:.65s;-ms-animation-delay:.65s;-o-animation-delay:.65s;animation-delay:.65s}#frotateG_04{right:6px;top:6px;-moz-animation-delay:.78s;-webkit-animation-delay:.78s;-ms-animation-delay:.78s;-o-animation-delay:.78s;animation-delay:.78s}#frotateG_05{right:0;top:20px;-moz-animation-delay:.91s;-webkit-animation-delay:.91s;-ms-animation-delay:.91s;-o-animation-delay:.91s;animation-delay:.91s}#frotateG_06{right:6px;bottom:6px;-moz-animation-delay:1.04s;-webkit-animation-delay:1.04s;-ms-animation-delay:1.04s;-o-animation-delay:1.04s;animation-delay:1.04s}#frotateG_07{left:20px;bottom:0;-moz-animation-delay:1.17s;-webkit-animation-delay:1.17s;-ms-animation-delay:1.17s;-o-animation-delay:1.17s;animation-delay:1.17s}#frotateG_08{left:6px;bottom:6px;-moz-animation-delay:1.3s;-webkit-animation-delay:1.3s;-ms-animation-delay:1.3s;-o-animation-delay:1.3s;animation-delay:1.3s}@-moz-keyframes f_fadeG{0%{background-color:#000}100%{background-color:#FFF}}@-webkit-keyframes f_fadeG{0%{background-color:#000}100%{background-color:#FFF}}@-ms-keyframes f_fadeG{0%{background-color:#000}100%{background-color:#FFF}}@-o-keyframes f_fadeG{0%{background-color:#000}100%{background-color:#FFF}}@keyframes f_fadeG{0%{background-color:#000}100%{background-color:#FFF}}
+	input {text-align: right;}
+    </style>
+	<script>
+		var pagaBruto = 0;
+		var kontributiPensional = (pagaBruto * 5) / 100;
+		var totalKontribute = kontributiPensional * 2;
+		var pagaETatueshme = pagaBruto - kontributiPensional;
+		var tatimiNePage = 0;
+		var pagaNeto = 0;
+		
+		function freskoVlerat() {
+			$('#paga-bruto').val(parseFloat(Math.round(pagaBruto * 100) / 100).toFixed(2));
+			$('#total-kontribute').val(parseFloat(Math.round(totalKontribute * 100) / 100).toFixed(2));
+			$('#paga-e-tatueshme').val(parseFloat(Math.round(pagaETatueshme * 100) / 100).toFixed(2));
+			$('#tatimi-ne-page').val(parseFloat(Math.round(tatimiNePage * 100) / 100).toFixed(2));
+			$('#paga-neto').val(parseFloat(Math.round(pagaNeto * 100) / 100).toFixed(2));
+		}
+		
+		$(document).ready(function() {	
+			freskoVlerat();
+			
+			$('#paga-bruto').change(function() {
+				pagaBruto = parseInt($(this).val());
+				kontributiPensional = (pagaBruto * 5) / 100;
+				totalKontribute = kontributiPensional * 2;
+				pagaETatueshme = pagaBruto - kontributiPensional;
+				tatimiNePage = 0;
+				
+				if(pagaETatueshme > 80 && pagaETatueshme <= 250)
+					tatimiNePage = ((pagaETatueshme - 80) * 4) / 100;
+				else if(pagaETatueshme > 250 && pagaETatueshme <= 450)
+					tatimiNePage = ((170 * 4) / 100) + (((pagaETatueshme - 250) * 8) / 100);
+				else if(pagaETatueshme > 450)
+					tatimiNePage = ((170 * 4) / 100) + ((200 * 8) / 100) + (((pagaETatueshme - 450) * 10) / 100);
+				
+				pagaNeto = pagaETatueshme - tatimiNePage;
+				
+				freskoVlerat();
+			});
+		});
+	</script>
+</head>
+<body>
+<div style="margin: 0 auto; width: 400px; margin-top: 200px">
+	<table>
+		<caption>Llogaritja e tatimit ne page</caption>
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td>Paga bruto:</td>
+				<td><input id="paga-bruto" type="number" value="0"/></td>
+			</tr>
+			<tr>
+				<td>Total Kontribute:</td>
+				<td><input id="total-kontribute" disabled></td>
+			</tr>
+			<tr>
+				<td>Paga e tatueshme:</td>
+				<td><input id="paga-e-tatueshme" disabled></td>
+			</tr>
+			<tr>
+				<td>Tatimi ne page:</td>
+				<td><input id="tatimi-ne-page" disabled></td>
+			</tr>
+			<tr>
+				<td>Paga Neto:</td>
+				<td><input id="paga-neto" disabled></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr><td colspan="2" style="text-align:center">*Vlerat jane per shtetin e Kosoves</td></tr>
+		</tfoot>
+	</table>
+<div>
+</body>
+</html>
